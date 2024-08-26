@@ -3,7 +3,7 @@
 
 namespace ApplicationRequest.Core.Abstractions
 {
-    public interface IRequestRepository
+    public interface IRequestService
     {
         public Task<List<Request>> GetRequestListAsync();
         public Task<long> CreateRequestAsync(Request request);
