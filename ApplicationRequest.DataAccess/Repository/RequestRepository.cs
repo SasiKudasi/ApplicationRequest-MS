@@ -38,7 +38,8 @@ namespace ApplicationRequest.DataAccess.Repository
 
         public async Task Delete(Request request)
         {
-            var entity = await _dbContext.RequestEntities.AsNoTracking().FirstOrDefaultAsync(r => r.Id == request.Id);
+            var entity = await _dbContext.RequestEntities.
+                FirstOrDefaultAsync(e => e.Id == request.Id);
             if (entity != null)
             {
                  _dbContext.RequestEntities.Remove(entity);
@@ -48,23 +49,24 @@ namespace ApplicationRequest.DataAccess.Repository
 
         public async Task<Request> GetByIdAsync (long id)
         {
-            var entyties = await GetListAsync();
-            var request = entyties.FirstOrDefault(r=>r.Id ==  id);
-            return request;
+            var entity = await _dbContext.RequestEntities.AsNoTracking().FirstOrDefaultAsync(r => r.Id == id);
+            if (entity != null)
+                return Request.Create(entity.Id, entity.UserId, entity.AnimalId, entity.Status);
+            return null;
+            
         }
 
         public async Task<long> UpdateAsync(Request request)
         {
-            if (request != null)
+            var entity = await _dbContext.RequestEntities.
+                FirstOrDefaultAsync(e => e.Id == request.Id);
+            if (entity != null)
             {
-                var requestEntity = new RequestEntity
-                {
-                    Id = request.Id,
-                    UserId = request.UserId,
-                    AnimalId = request.AnimalId,
-                    Status = request.Status
-                };
-                _dbContext.RequestEntities.Update(requestEntity);
+                entity.UserId = request.UserId;
+                entity.AnimalId = request.AnimalId;
+                entity.Status = request.Status;
+
+                _dbContext.RequestEntities.Update(entity);
                 await _dbContext.SaveChangesAsync();
             }
             return request.Id;
