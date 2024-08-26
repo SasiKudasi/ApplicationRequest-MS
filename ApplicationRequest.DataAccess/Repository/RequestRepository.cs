@@ -1,15 +1,11 @@
-﻿using ApplicationRequest.Core.Models;
+﻿using ApplicationRequest.Core.Abstractions;
+using ApplicationRequest.Core.Models;
 using ApplicationRequest.DataAccess.Entities;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ApplicationRequest.DataAccess.Repository
 {
-    public class RequestRepository
+    public class RequestRepository : IRequestRepository
     {
         private readonly ApplicationRequestDbContext _dbContext;
 
