@@ -5,10 +5,10 @@ namespace ApplicationRequest.Core.Abstractions
 {
     public interface IRequestRepository
     {
-        public Task<List<Request>> GetRequestListAsync();
-        public Task<long> CreateRequestAsync(Request request);
-        public Task DeleteRequest(Request request);
-        public Task<Request> GetByIdRequestAsync(long id);
-        public Task<long> UpdateRequestAsync(Request request);
+        public Task<List<Request>> GetListAsync();
+        public Task<long> CreateAsync(Request request);
+        public Task Delete(Request request);
+        public Task<Request> GetByIdAsync(long id);
+        public Task<long> UpdateAsync(Request request);
     }
 }

@@ -14,7 +14,7 @@ namespace ApplicationRequest.DataAccess.Repository
            _dbContext = dbContext;
         }
 
-        public async Task<List<Request>> GetRequestListAsync()
+        public async Task<List<Request>> GetListAsync()
         {
             var entity = await _dbContext.RequestEntities.AsNoTracking().ToListAsync();
             var requests = entity
@@ -22,7 +22,7 @@ namespace ApplicationRequest.DataAccess.Repository
                 .ToList();
             return requests;
         }
-        public async Task<long> CreateRequestAsync (Request request)
+        public async Task<long> CreateAsync (Request request)
         {
             var requestEntity = new RequestEntity
             {
@@ -36,7 +36,7 @@ namespace ApplicationRequest.DataAccess.Repository
             return requestEntity.Id;
         }
 
-        public async Task DeleteRequest(Request request)
+        public async Task Delete(Request request)
         {
             var entity = await _dbContext.RequestEntities.AsNoTracking().FirstOrDefaultAsync(r => r.Id == request.Id);
             if (entity != null)
@@ -46,14 +46,14 @@ namespace ApplicationRequest.DataAccess.Repository
             }
         }
 
-        public async Task<Request> GetByIdRequestAsync (long id)
+        public async Task<Request> GetByIdAsync (long id)
         {
-            var entyties = await GetRequestListAsync();
+            var entyties = await GetListAsync();
             var request = entyties.FirstOrDefault(r=>r.Id ==  id);
             return request;
         }
 
-        public async Task<long> UpdateRequestAsync(Request request)
+        public async Task<long> UpdateAsync(Request request)
         {
             if (request != null)
             {
