@@ -40,7 +40,39 @@ namespace ApplicationRequest.DataAccess.Repository
             return requestEntity.Id;
         }
 
+        public async Task DeleteRequest(Request request)
+        {
+            var entity = await _dbContext.RequestEntities.AsNoTracking().FirstOrDefaultAsync(r => r.Id == request.Id);
+            if (entity != null)
+            {
+                 _dbContext.RequestEntities.Remove(entity);
+                await _dbContext.SaveChangesAsync();
+            }
+        }
 
+        public async Task<Request> GetByIdRequestAsync (long id)
+        {
+            var entyties = await GetRequestListAsync();
+            var request = entyties.FirstOrDefault(r=>r.Id ==  id);
+            return request;
+        }
+
+        public async Task<long> UpdateRequestAsync(Request request)
+        {
+            if (request != null)
+            {
+                var requestEntity = new RequestEntity
+                {
+                    Id = request.Id,
+                    UserId = request.UserId,
+                    AnimalId = request.AnimalId,
+                    Status = request.Status
+                };
+                _dbContext.RequestEntities.Update(requestEntity);
+                await _dbContext.SaveChangesAsync();
+            }
+            return request.Id;
+        }
 
     }
 }
